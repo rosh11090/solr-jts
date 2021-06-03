@@ -1,0 +1,15 @@
+<schema name="object-id-schema" version="1.0">
+<types>
+  <fieldType name="plong" class="solr.LongPointField" multiValued="false" stored="false"/>
+  <fieldType name="string" class="solr.StrField" multiValued="false" stored="false"/>
+</types>
+<fields>
+  <field name="_version_" type="plong" indexed="false" stored="false" docValues="true"/>
+  <field name="object_id" type="string" docValues="true" required="true" stored="true"/>
+</fields>
+<uniqueKey>object_id</uniqueKey>
+<solrQueryParser defaltOperator="OR"/>
+<similarity class="solr.BM25SimilarityFactory">
+    <float name="b">0</float>
+</similarity>
+</schema>

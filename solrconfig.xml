@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<config>
+  <luceneMatchVersion>7.0.0</luceneMatchVersion>
+  <requestHandler name="standard" class="solr.SearchHandler" dafault="true" />
+
+  <updateHandler class="solr.DirectUpdateHandler2">
+    <autoCommit>
+      <maxDocs>100</maxDocs>
+      <maxTime>1001</maxTime>
+      <openSearcher>true</openSearcher>
+    </autoCommit>
+  </updateHandler>
+
+  <requestHandler name="/update" class="solr.UpdateRequestHandler"/>
+  <lib dir="${solr.install.dir:../../../..}/dest/noon/" regex=".*\.jar" />
+  <admin>
+    <defaultQuery>*:*</defaultQuery>
+  </admin>
+  <requestHandler name="/select" class="solr.SearchHandler">
+    <lst name="defaults">
+      <int name="rows">50</int>
+      <str name="defType">edismax</str>
+      <str name="df">object_id</str>
+    </lst>
+  </requestHandler>
+  <requestHandler name="/replication" class="solr.ReplicationHandler" >
+    <lst name="master">
+      <str name="replicateAfter">startup</str>
+      <str name="replicateAfter">commit</str>
+      <str name="replicateAfter">optimize</str>
+      <!--If configuration files need to be replicated give the names here, separated by comma -->
+    </lst>
+  </requestHandler>
+  <schemaFactory class="ManagedIndexSchemaFactory">
+    <bool name="mutable">true</bool>
+    <str name="managedSchemaResourceName">managed-schema</str>
+  </schemaFactory>
+</config>
